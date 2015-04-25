@@ -4,7 +4,7 @@ from django.db import models
 class SshHack(models.Model):
     ip = models.GenericIPAddressField()
     attempted = models.DateTimeField()
-    username = models CharField(max_length=255, blank=True)
+    username = models.CharField(max_length=255, blank=True)
     city = models.CharField(max_length=255, blank=True)
     region_code = models.CharField(max_length=2, blank=True)
     region_name = models.CharField(max_length=255, blank=True)

@@ -52,6 +52,7 @@ INSTALLED_APPS = (
 
     'graphs',
     'bandwidthtest',
+    'hack_plot',
 )
 
 MIDDLEWARE_CLASSES = (

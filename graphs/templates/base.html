@@ -14,12 +14,14 @@
             <link rel="stylesheet" href="{{ STATIC_URL }}css/style-xlarge.css" />
         </noscript>
         <!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}css/ie/v8.css" /><![endif]-->
+        <!--[if IE]><link rel="shortcut icon" href="{{ STATIC_URL }}images/chart_32x32.ico"><![endif]-->
+        <link rel="icon" href="{{ STATIC_URL }}images/chart_196x196.png">
     </head>
     <body id="top">
 
         <!-- Header -->
             <header id="header">
-                <a href="{% url 'home' %}" class="image avatar"><img src="{{ STATIC_URL }}images/avatar.jpg" alt="" /></a>
+                <a href="{% url 'home' %}" class="image avatar"><img src="{{ STATIC_URL }}images/chart_128x128.png" alt="" /></a>
                 {% block filters %}
                 {% endblock filters %}
                 {% block internal_links %}
@@ -31,8 +33,8 @@
 
         <!-- Main -->
             <div id="main">
-                {% block maincontent %}
-                {% endblock maincontent %}
+            {% block maincontent %}
+            {% endblock maincontent %}
                 <!-- One -->
                     <section>
                         <header class="major">
@@ -139,7 +141,4 @@
     </body>
     {% block sidebar %}
     {% endblock sidebar %}
-
-    {% block maincontent %}
-    {% endblock maincontent %}
 </html>

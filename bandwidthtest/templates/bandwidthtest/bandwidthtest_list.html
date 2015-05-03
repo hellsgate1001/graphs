@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block maincontent %}
+    {% for test in object_list %}
+    <p>{{ test.test_start }}</p>
+    {% endfor %}
+{% endblock maincontent %}

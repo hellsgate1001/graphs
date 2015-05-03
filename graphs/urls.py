@@ -13,5 +13,6 @@ urlpatterns = patterns('',
 
     url(r'^api/', include('bandwidthtest.api.urls')),
 
+    url(r'^bandwidth/', include('bandwidthtest.urls')),
     url(r'^$', HomeView.as_view(), name='home'),
 )

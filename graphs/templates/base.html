@@ -21,7 +21,7 @@
 
         <!-- Header -->
             <header id="header">
-                <a href="{% url 'home' %}" class="image avatar"><img src="{{ STATIC_URL }}images/chart_128x128.png" alt="" /></a>
+                <a href="{% url 'home' %}" class="image avatar"><img src="{{ STATIC_URL }}images/chart_128x128.png" alt="Charts @ BriansDojo" /></a>
                 {% block filters %}
                 {% endblock filters %}
                 {% block internal_links %}
@@ -138,7 +138,7 @@
                 </ul>
             </footer>
 
+            {% block before_body_close %}
+            {% endblock before_body_close %}
     </body>
-    {% block sidebar %}
-    {% endblock sidebar %}
 </html>

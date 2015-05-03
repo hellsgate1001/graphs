@@ -1,1 +1,48 @@
 {% extends 'base.html' %}
+
+{% block filters %}
+    <ul>
+        <li>Filters will</li>
+        <li>go here</li>
+    </ul>
+{% endblock filters %}
+
+{% block maincontent %}
+    <div id="bandwidth_chart" style="width:100%;height:480px">
+
+    </div>
+{% endblock maincontent %}
+
+{% block before_body_close %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/highcharts.js"></script>
+    <script type="text/javascript">
+        $().ready(function(){
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'bandwidth_chart',
+                    type: 'area'
+                },
+                title: {
+                    text: 'Bandwidth Available'
+                },
+                xAxis: {
+                    categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                    tickInterval: 1
+                },
+                yAxis: {
+                    title: {
+                        text: 'Usage MB'
+                    },
+                    min: 0
+                },
+                series: [{
+                    name: 'Download',
+                    data: [54.7, 54.7, 53.9, 54.8, 54.4, ]
+                }, {
+                    name: 'Upload',
+                    data: [ 1.4, 1.4, 1.4, 1.4, 1.5,  ]
+                }]
+            });
+        });
+    </script>
+{% endblock before_body_close %}

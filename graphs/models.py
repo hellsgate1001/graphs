@@ -15,3 +15,6 @@ class Chart(models.Model):
     @property
     def slugged_title(self):
         return slugify(self.title)
+
+    class Meta:
+        ordering = ['order',]

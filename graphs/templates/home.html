@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block filters %}
+    <h1>Various charts and graphs, click below for more info</h1>
+{% endblock filters %}
+
 {% block internal_links %}
     {% if object_list %}
     <ul>
@@ -17,9 +21,9 @@
             <header class="major">
                 <h2>{{ chart.title }}</h2>
             </header>
-            <p>{{ chart.description }}</p>
+            <p>{{ chart.description|safe }}</p>
             <ul class="actions">
-                <li><a href="/{{ chart.url }}/" class="button">Learn More</a></li>
+                <li><a href="/{{ chart.url }}/" class="button">View</a></li>
             </ul>
         </section>
         {% endfor %}

@@ -1,10 +1,8 @@
 from django.db import models
 
 
-class SshHack(models.Model):
-    ip = models.GenericIPAddressField()
-    attempted = models.DateTimeField()
-    username = models.CharField(max_length=255, blank=True)
+class SshHackIP(models.Model):
+    ip_address = models.GenericIPAddressField()
     city = models.CharField(max_length=255, blank=True)
     region_code = models.CharField(max_length=2, blank=True)
     region_name = models.CharField(max_length=255, blank=True)
@@ -14,12 +12,25 @@ class SshHack(models.Model):
     country_code = models.CharField(max_length=2, blank=True)
     country_name = models.CharField(max_length=255, blank=True)
     zip_code = models.CharField(max_length=15, blank=True)
-    attempts = models.PositiveIntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        return '{ip} ({attempts} attempts)'.format(
-            ip=self.ip, attempts=self.get_attempts
-        )
+        return self.ip
 
-    def get_attempts(self):
-        return self.attempts or 0
+
+class SshHackUsername(models.Model):
+    username = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.username
+
+
+class SshHackAttempt(models.Model):
+    attempted = models.DateTimeField()
+    ip = models.ForeignKey(SshHackIP)
+    username = models.ForeignKey(SshHackUsername)
+
+    def __unicode__(self):
+        return '{atempted} - {ip}'.format(
+            attempted=self.attempted.strftime('%Y-%m-%d %H:%M:%S'),
+            ip=self.ip.ip_address
+        )

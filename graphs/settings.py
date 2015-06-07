@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'graphs.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': 'graphs',
         'USER': 'graphs',
         'PASSWORD': get_env_variable('GRAPHS_DB_PASS'),

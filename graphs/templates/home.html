@@ -5,9 +5,9 @@
 {% endblock filters %}
 
 {% block internal_links %}
-    {% if object_list %}
+    {% if chart_list %}
     <ul>
-        {% for chart in object_list %}
+        {% for chart in chart_list %}
         <li><a href="#{{ chart.slugged_title }}">{{ chart.title }}</a></li>
         {% endfor %}
     </ul>

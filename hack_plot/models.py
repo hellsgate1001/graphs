@@ -8,7 +8,7 @@ from django.utils import timezone
 class SshHackIP(models.Model):
     ip_address = models.GenericIPAddressField(unique=True)
     city = models.CharField(max_length=255, blank=True)
-    region_code = models.CharField(max_length=2, blank=True)
+    region_code = models.CharField(max_length=4, blank=True)
     region_name = models.CharField(max_length=255, blank=True)
     time_zone = models.CharField(max_length=255, blank=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
@@ -34,7 +34,7 @@ class SshHackIP(models.Model):
 
         location = self.get_geoip_data()
         for k, v in location.items():
-            if k in self._meta.fields:
+            if hasattr(self, k):
                 setattr(self, k, v)
         self.located = True
         self.save()

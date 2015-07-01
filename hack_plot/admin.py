@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import SshHackIP, SshHackUsername, SshHackAttempt
+
+
+admin.site.register(SshHackIP)
+admin.site.register(SshHackUsername)
+admin.site.register(SshHackAttempt)

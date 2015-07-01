@@ -33,6 +33,7 @@ class AuthAttempt(object):
         if match is not None:
             self.username = match.groups()[0]
 
+    @property
     def has_all_keys(self):
         for key in self.required_keys:
             if getattr(self, key) is None:
@@ -46,7 +47,7 @@ class AuthAttempt(object):
         if not ip.located:
             ip.set_location()
 
-        username, u_created = SshHackUsername(
+        username, u_created = SshHackUsername.objects.get_or_create(
             username=self.username
         )
         auth_attempt = SshHackAttempt(
@@ -71,8 +72,8 @@ def get_id_from_line(line):
     ]
 
 
-def parse_auth_log():
-    auth = open('/var/log/auth.log', 'rU')
+def parse_auth_log(filename='/var/log/auth.log'):
+    auth = open(filename, 'rU')
 
     prev_id = ''
     attempt = None

@@ -1,6 +1,8 @@
 import requests
+import json
 
 from django.db import models
+from django.utils import timezone
 
 
 class SshHackIP(models.Model):
@@ -17,13 +19,14 @@ class SshHackIP(models.Model):
     located = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.ip
+        return self.ip_address
 
     def get_geoip_data(self):
         response = requests.get(
-            'http://127.0.0.1:8080/json/{ip}'.format(ip-self.ip_address)
+            'http://127.0.0.1:8080/json/{ip}'.format(ip=self.ip_address)
         )
         response.raise_for_status()
+        return json.loads(response.content)
 
     def set_location(self):
         if self.located:
@@ -54,3 +57,8 @@ class SshHackAttempt(models.Model):
             attempted=self.attempted.strftime('%Y-%m-%d %H:%M:%S'),
             ip=self.ip.ip_address
         )
+
+    def save(self, *args, **kwargs):
+        if not timezone.is_aware(self.attempted):
+            timezone.make_aware(self.attempted, timezone.get_current_timezone())
+        super(SshHackAttempt, self).save(*args, **kwargs)

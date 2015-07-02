@@ -94,6 +94,7 @@ def parse_auth_log(filename='/var/log/auth.log'):
                 # Store the previous attempt and start a new one
                 attempt.save()
             attempt = AuthAttempt()
+            attempt.ssh_id = attempt_id
             attempt.attempted = attempted
 
         # Grab the IP address

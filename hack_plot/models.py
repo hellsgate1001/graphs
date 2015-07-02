@@ -51,6 +51,7 @@ class SshHackAttempt(models.Model):
     attempted = models.DateTimeField()
     ip = models.ForeignKey(SshHackIP)
     username = models.ForeignKey(SshHackUsername)
+    ssh_id = models.PositiveIntegerField(blank=True, null=True)
 
     def __unicode__(self):
         return '{attempted} - {ip}'.format(
@@ -60,5 +61,7 @@ class SshHackAttempt(models.Model):
 
     def save(self, *args, **kwargs):
         if not timezone.is_aware(self.attempted):
-            timezone.make_aware(self.attempted, timezone.get_current_timezone())
+            self.attempted = timezone.make_aware(
+                self.attempted, timezone.get_current_timezone()
+            )
         super(SshHackAttempt, self).save(*args, **kwargs)

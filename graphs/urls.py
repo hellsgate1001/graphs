@@ -12,7 +12,9 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^api/', include('bandwidthtest.api.urls')),
+    url(r'^api/', include('hack_plot.api.urls')),
 
     url(r'^bandwidth/', include('bandwidthtest.urls')),
+    url(r'^ssh-hack/', include('hack_plot.urls')),
     url(r'^$', HomeView.as_view(), name='home'),
 )

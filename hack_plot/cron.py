@@ -51,7 +51,7 @@ class AuthAttempt(object):
             username=self.username
         )
         auth_attempt = SshHackAttempt(
-            attempted=self.attempted, ip=ip, username=username
+            attempted=self.attempted, ip=ip, username=username, ssh_id=self.ssh_id
         )
         auth_attempt.save()
 

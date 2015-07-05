@@ -51,7 +51,7 @@ class SshHackAttempt(models.Model):
     attempted = models.DateTimeField()
     ip = models.ForeignKey(SshHackIP)
     username = models.ForeignKey(SshHackUsername)
-    ssh_id = models.PositiveIntegerField(blank=True, null=True)
+    ssh_id = models.PositiveIntegerField(unique=True, blank=True, null=True)
 
     def __unicode__(self):
         return '{attempted} - {ip}'.format(

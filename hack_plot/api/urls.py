@@ -1,0 +1,18 @@
+from django.conf.urls import patterns, include, url
+
+from rest_framework import routers
+
+from .views import HackIPViewSet
+
+
+hackplot_api_urls = patterns('',
+    url(
+        r'^hack-ip/$',
+        HackIPViewSet.as_view({'get': 'list'}),
+        name='list'
+    ),
+)
+
+urlpatterns = patterns('',
+    url(r'^', include(hackplot_api_urls, namespace='hackplot_api')),
+)

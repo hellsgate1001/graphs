@@ -17,6 +17,8 @@
         <!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}css/ie/v8.css" /><![endif]-->
         <!--[if IE]><link rel="shortcut icon" href="{{ STATIC_URL }}images/chart_32x32.ico"><![endif]-->
         <link rel="icon" href="{{ STATIC_URL }}images/chart_196x196.png">
+        {% block before_head_close %}
+        {% endblock before_head_close %}
     </head>
     <body id="top">
 

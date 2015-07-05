@@ -1,12 +1,12 @@
 from django.conf.urls import patterns, include, url
 
-from .views import BandwidthHomeView
+from .views import HackPlotHomeView
 
 
-bandwidth_urls = patterns('',
+hackplot_urls = patterns('',
     url(
         r'^$',
-        BandwidthHomeView.as_view(),
+        HackPlotHomeView.as_view(),
         name='list'
     ),
     # url(
@@ -17,5 +17,5 @@ bandwidth_urls = patterns('',
 )
 
 urlpatterns = patterns('',
-    url(r'^', include(bandwidth_urls, namespace='bandwidthtest')),
+    url(r'^', include(hackplot_urls, namespace='hackplot')),
 )

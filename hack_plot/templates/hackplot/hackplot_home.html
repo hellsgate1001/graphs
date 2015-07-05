@@ -30,6 +30,9 @@
     <div id="hackplot_chart" style="width:100%;height:480px" data-url="{% url 'hackplot_api:list' %}">
         <div class="map">Alternative content</div>
     </div>
+    <div>
+        Each dot on the map is the location of at least one failed SSH log in attempt.  Hover over the dot to see more info about the location.
+    </div>
 {% endblock maincontent %}
 
 {% block before_body_close %}

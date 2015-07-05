@@ -86,6 +86,10 @@ def parse_auth_log(filename='/var/log/auth.log'):
         # Grab the attempt ID
         attempt_id = get_id_from_line(line)
 
+        # Is this a dup?
+        if SshHackAttempt.objects.filter(ssh_id=attempt_id).count() > 0:
+            continue
+
         # Is this a new attempt?
         new_attempt = prev_id != attempt_id
 

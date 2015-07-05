@@ -36,4 +36,3 @@ $(document).ready(function(){
         });
     });
 });
-// $('#hackplot_chart').trigger('update', [{}, {new_plt}, {}, {}]

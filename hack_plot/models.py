@@ -5,14 +5,24 @@ from django.db import models
 from django.utils import timezone
 
 
+class SshHackLocation(models.Model):
+    longitude = models.DecimalField(max_digits=10, decimal_places=6)
+    latitude = models.DecimalField(max_digits=10, decimal_places=6)
+
+    def __unicode__(self):
+        return '%s:%s' % (self.longitude, self.latitude)
+
+    class Meta:
+        unique_together = (('longitude', 'latitude'),)
+
+
 class SshHackIP(models.Model):
     ip_address = models.GenericIPAddressField(unique=True)
+    location = models.ForeignKey(SshHackLocation)
     city = models.CharField(max_length=255, blank=True)
     region_code = models.CharField(max_length=4, blank=True)
     region_name = models.CharField(max_length=255, blank=True)
     time_zone = models.CharField(max_length=255, blank=True)
-    longitude = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
-    latitude = models.DecimalField(max_digits=10, decimal_places=6, blank=True, null=True)
     country_code = models.CharField(max_length=2, blank=True)
     country_name = models.CharField(max_length=255, blank=True)
     zip_code = models.CharField(max_length=15, blank=True)
@@ -28,16 +38,27 @@ class SshHackIP(models.Model):
         response.raise_for_status()
         return json.loads(response.content)
 
-    def set_location(self):
+    def save(self, *args, **kwargs):
+        if not self.located:
+            self.set_location(False)
+        super(SshHackIP, self).save(*args, **kwargs)
+
+    def set_location(self, save=True):
         if self.located:
             return
 
         location = self.get_geoip_data()
+        ssh_location, created = SshHackLocation.objects.get_or_create(
+            longitude=location['longitude'],
+            latitude=location['latitude']
+        )
+        self.location = ssh_location
         for k, v in location.items():
-            if hasattr(self, k):
+            if k not in  ('longitude', 'latitude') and hasattr(self, k):
                 setattr(self, k, v)
         self.located = True
-        self.save()
+        if save:
+            self.save()
 
 
 class SshHackUsername(models.Model):

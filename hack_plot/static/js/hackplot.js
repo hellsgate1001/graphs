@@ -3,13 +3,8 @@ $(document).ready(function(){
         geoPlots = {};
         $.each(data.results, function(index, result){
             newPlot = {
-                type: 'circle',
-                size: 5,
                 latitude: result.latitude,
                 longitude: result.longitude,
-                attrs: {
-                    opacity: 1
-                },
                 tooltip: {
                     content: '<span style="font-weight: bold;">' + result.ip_address + '</span><br/>' + result.attempts.length
                 }
@@ -19,9 +14,26 @@ $(document).ready(function(){
 
         $('#hackplot_chart').mapael({
             map : {
-                name : "world_countries"
+                name : "world_countries",
+                defaultPlot: {
+                    type: 'circle',
+                    size: 5,
+                    attrs: {
+                        opacity: 1
+                    },
+                    attrsHover: {
+                            'stroke-width': 0,
+                        fill: '#8ABEDE'
+                    }
+                },
+                defaultArea: {
+                    attrsHover: {
+                        fill: '#343434'
+                    }
+                }
             },
             plots: geoPlots
         });
     });
 });
+// $('#hackplot_chart').trigger('update', [{}, {new_plt}, {}, {}]

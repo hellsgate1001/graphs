@@ -10,3 +10,4 @@ class HackIPViewSet(viewsets.ModelViewSet):
     """
     queryset = SshHackIP.objects.all()
     serializer_class = HackIpSerializer
+    paginate_by = 500

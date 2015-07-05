@@ -80,6 +80,9 @@ def parse_auth_log(filename='/var/log/auth.log'):
     for line in auth.readlines():
         line = line.strip()
 
+        # Skip sudo entries
+        if line.find('sudo') >= 0:
+            continue
         # Grab the date/time of the attempt and remove that from line
         attempted, line = get_date_from_line(line)
 

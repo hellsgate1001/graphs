@@ -18,7 +18,7 @@ import django.core.handlers.wsgi
 _application = django.core.handlers.wsgi.WSGIHandler()
 
 def application(environ, start_response):
-    os.environ['GRAPHS_DB_PASS'] = environ['BOOKIT_DB_PASS']
+    os.environ['GRAPHS_DB_PASS'] = environ['GRAPHS_DB_PASS']
     try:
         return _application(environ, start_response)
     except ImportError:

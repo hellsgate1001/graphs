@@ -1,12 +1,40 @@
+function getIpDiv(ip_address) {
+    ipDiv = $('<div>').addClass('ipinfo');
+    ipSpan = $('<p>').text(ip_address.ip_address).css('font-weight','bold');
+    totalSpan = $('<p>').text(ip_address.attempts.length + ' attempts');
+    $(ipDiv).append(ipSpan, totalSpan);
+    return ipDiv;
+}
+
+function getLocationTitle(location) {
+    if (location.city != '') {
+        locationTitle = location.city;
+    } else if (location.region_name != '') {
+        locationTitle = location.region_name;
+    } else {
+        locationTitle = 'N/A';
+    }
+    locationTitle += ', ' + location.country_name;
+
+    return locationTitle;
+}
+
 $(document).ready(function(){
     $.getJSON($('#hackplot_chart').attr('data-url'), function(data){
         geoPlots = {};
         $.each(data.results, function(index, result){
+            var ipinfo = $('<div>').append(
+                $('<h5>').text(getLocationTitle(result))
+            );
+            $.each(result.ip_addresses, function(idx, ip_address){
+                ipinfo.append(getIpDiv(ip_address));
+            });
+
             newPlot = {
                 latitude: result.latitude,
                 longitude: result.longitude,
                 tooltip: {
-                    content: '<span style="font-weight: bold;">' + result.longitude + ',' + result.latitude + '</span><br/>' + result.ip_addresses.length
+                    content: ipinfo
                 }
             }
             geoPlots[result.longitude + ',' + result.latitude] = newPlot
@@ -17,7 +45,7 @@ $(document).ready(function(){
                 name : "world_countries",
                 defaultPlot: {
                     type: 'circle',
-                    size: 5,
+                    size: 8,
                     attrs: {
                         opacity: 1
                     },

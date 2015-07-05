@@ -6,10 +6,10 @@ $(document).ready(function(){
                 latitude: result.latitude,
                 longitude: result.longitude,
                 tooltip: {
-                    content: '<span style="font-weight: bold;">' + result.ip_address + '</span><br/>' + result.attempts.length
+                    content: '<span style="font-weight: bold;">' + result.longitude + ',' + result.latitude + '</span><br/>' + result.ip_addresses.length
                 }
             }
-            geoPlots[result.ip_address] = newPlot
+            geoPlots[result.longitude + ',' + result.latitude] = newPlot
         });
 
         $('#hackplot_chart').mapael({

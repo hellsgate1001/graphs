@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import SshHackIP
+from ..models import SshHackIP, SshHackLocation
 
 
 class HackIpSerializer(serializers.ModelSerializer):
@@ -21,15 +21,29 @@ class HackIpSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'ip_address',
+            'located',
+            'attempts'
+        ]
+
+
+class HackLocationSerializer(serializers.ModelSerializer):
+    ip_addresses = serializers.SerializerMethodField()
+
+    def get_ip_addresses(self, obj):
+        return [HackIpSerializer(ip).data for ip in obj.sshhackip_set.all()]
+
+    class Meta:
+        model = SshHackLocation
+        fields = [
+            'id',
+            'longitude',
+            'latitude',
             'city',
             'region_code',
             'region_name',
             'time_zone',
-            'longitude',
-            'latitude',
             'country_code',
             'country_name',
             'zip_code',
-            'located',
-            'attempts'
+            'ip_addresses'
         ]

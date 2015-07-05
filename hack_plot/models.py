@@ -8,6 +8,13 @@ from django.utils import timezone
 class SshHackLocation(models.Model):
     longitude = models.DecimalField(max_digits=10, decimal_places=6)
     latitude = models.DecimalField(max_digits=10, decimal_places=6)
+    city = models.CharField(max_length=255, blank=True)
+    region_code = models.CharField(max_length=4, blank=True)
+    region_name = models.CharField(max_length=255, blank=True)
+    time_zone = models.CharField(max_length=255, blank=True)
+    country_code = models.CharField(max_length=2, blank=True)
+    country_name = models.CharField(max_length=255, blank=True)
+    zip_code = models.CharField(max_length=15, blank=True)
 
     def __unicode__(self):
         return '%s:%s' % (self.longitude, self.latitude)
@@ -19,13 +26,6 @@ class SshHackLocation(models.Model):
 class SshHackIP(models.Model):
     ip_address = models.GenericIPAddressField(unique=True)
     location = models.ForeignKey(SshHackLocation)
-    city = models.CharField(max_length=255, blank=True)
-    region_code = models.CharField(max_length=4, blank=True)
-    region_name = models.CharField(max_length=255, blank=True)
-    time_zone = models.CharField(max_length=255, blank=True)
-    country_code = models.CharField(max_length=2, blank=True)
-    country_name = models.CharField(max_length=255, blank=True)
-    zip_code = models.CharField(max_length=15, blank=True)
     located = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -52,10 +52,13 @@ class SshHackIP(models.Model):
             longitude=location['longitude'],
             latitude=location['latitude']
         )
-        self.location = ssh_location
         for k, v in location.items():
-            if k not in  ('longitude', 'latitude') and hasattr(self, k):
-                setattr(self, k, v)
+            if hasattr(ssh_location, k):
+                if getattr(ssh_location, k) == '':
+                    setattr(ssh_location, k, v)
+        ssh_location.save()
+
+        self.location = ssh_location
         self.located = True
         if save:
             self.save()

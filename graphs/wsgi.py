@@ -13,9 +13,9 @@ from unipath import Path
 sys.path.append('/var/projects/graphs')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'graphs.settings'
 
-import django.core.handlers.wsgi
+import django.core.wsgi
 
-_application = django.core.handlers.wsgi.WSGIHandler()
+_application = django.core.wsgi.get_wsgi_application()
 
 def application(environ, start_response):
     os.environ['GRAPHS_DB_PASS'] = environ['GRAPHS_DB_PASS']

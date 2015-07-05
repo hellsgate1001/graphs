@@ -28,7 +28,7 @@ def get_env_variable(var_name):
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8ay(bk!y*2-_-hbawbl*e0nytxm**!dx^v6+&fal)w3ieja812'
+SECRET_KEY = get_env_variable('GRAPHS_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

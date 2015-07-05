@@ -27,8 +27,8 @@
 {% endblock before_head_close %}
 
 {% block maincontent %}
-    <div id="hackplot_chart" style="width:100%;height:480px">
-<div class="map">Alternative content</div>
+    <div id="hackplot_chart" style="width:100%;height:480px" data-url="{% url 'hackplot_api:list' %}">
+        <div class="map">Alternative content</div>
     </div>
 {% endblock maincontent %}
 
@@ -36,31 +36,5 @@
     <script type="text/javascript" src="{{ STATIC_URL }}js/raphael-min.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.mapael.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/maps/world_countries.js"></script>
-    <script type="text/javascript">
-        $.getJSON('{% url "hackplot_api:list" %}', function(data){
-            geoPlots = {};
-            $.each(data.results, function(index, result){
-                newPlot = {
-                    type: 'circle',
-                    size: 5,
-                    latitude: result.latitude,
-                    longitude: result.longitude,
-                    attrs: {
-                        opacity: 1
-                    },
-                    tooltip: {
-                        content: '<span style="font-weight: bold;">' + result.ip_address + '</span><br/>' + result.attempts.length
-                    }
-                }
-                geoPlots[result.ip_address] = newPlot
-            });
-
-            $('#hackplot_chart').mapael({
-                map : {
-                    name : "world_countries"
-                },
-                plots: geoPlots
-            });
-        });
-    </script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/hackplot.js"></script>
 {% endblock before_body_close %}

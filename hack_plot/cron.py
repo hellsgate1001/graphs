@@ -1,6 +1,9 @@
 from datetime import datetime
+import gzip
 import json
 import re
+
+from unipath import Path, FILES
 
 from models import SshHackIP, SshHackUsername, SshHackAttempt
 
@@ -72,46 +75,51 @@ def get_id_from_line(line):
     ]
 
 
-def parse_auth_log(filename='/var/log/auth.log'):
-    auth = open(filename, 'rU')
+def parse_auth_log(log_folder='/var/log/'):
+    directory = Path(log_folder)
+    for auth_file in directory.listdir('auth*.*', FILES):
+        if auth_file.ext == '.gz':
+            auth = gzip.open(auth_file, 'rb')
+        else:
+            auth = open(auth_file, 'rU')
 
-    prev_id = ''
-    attempt = None
-    for line in auth.readlines():
-        line = line.strip()
+        prev_id = ''
+        attempt = None
+        for line in auth.readlines():
+            line = line.strip()
 
-        # Skip sudo entries
-        if line.find('sudo') >= 0:
-            continue
-        # Grab the date/time of the attempt and remove that from line
-        attempted, line = get_date_from_line(line)
+            # Skip sudo entries
+            if line.find('sudo') >= 0:
+                continue
+            # Grab the date/time of the attempt and remove that from line
+            attempted, line = get_date_from_line(line)
 
-        # Grab the attempt ID
-        attempt_id = get_id_from_line(line)
+            # Grab the attempt ID
+            attempt_id = get_id_from_line(line)
 
-        # Is this a dup?
-        if SshHackAttempt.objects.filter(ssh_id=attempt_id).count() > 0:
-            continue
+            # Is this a dup?
+            if SshHackAttempt.objects.filter(ssh_id=attempt_id).count() > 0:
+                continue
 
-        # Is this a new attempt?
-        new_attempt = prev_id != attempt_id
+            # Is this a new attempt?
+            new_attempt = prev_id != attempt_id
 
-        if new_attempt:
-            if getattr(attempt, 'has_all_keys', None):
-                # Store the previous attempt and start a new one
-                attempt.save()
-            attempt = AuthAttempt()
-            attempt.ssh_id = attempt_id
-            attempt.attempted = attempted
+            if new_attempt:
+                if getattr(attempt, 'has_all_keys', None):
+                    # Store the previous attempt and start a new one
+                    attempt.save()
+                attempt = AuthAttempt()
+                attempt.ssh_id = attempt_id
+                attempt.attempted = attempted
 
-        # Grab the IP address
-        attempt.set_ip_from_line(line)
+            # Grab the IP address
+            attempt.set_ip_from_line(line)
 
-        # Is the username in this line?
-        attempt.set_username_from_line(line)
+            # Is the username in this line?
+            attempt.set_username_from_line(line)
 
-        # Does the ID need updated?
-        if prev_id != attempt_id:
-            prev_id = attempt_id
+            # Does the ID need updated?
+            if prev_id != attempt_id:
+                prev_id = attempt_id
 
-    auth.close()
+        auth.close()

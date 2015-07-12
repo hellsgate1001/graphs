@@ -49,7 +49,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'django_crontab',
 
     'graphs',
     'bandwidthtest',
@@ -109,7 +108,3 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 25,
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
 }
-
-CRONJOBS = [
-    ('*/5 * * * *', 'hack_plot.cron.parse_auth_log', '> //var/projects/graphs/last_scheduled_job.log')
-]

@@ -38,6 +38,9 @@ $(document).ready(function(){
                 attrsHover: {
                     fill: '#343434'
                 }
+            },
+            afterInit : function(container, paper, areas, plots, options) {
+                $('#hackplot_chart').resize();
             }
         }
     });

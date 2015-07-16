@@ -20,6 +20,28 @@ function getLocationTitle(location) {
 }
 
 $(document).ready(function(){
+    $('#hackplot_chart').mapael({
+        map : {
+            name : "world_countries",
+            defaultPlot: {
+                type: 'circle',
+                size: 8,
+                attrs: {
+                    opacity: 1
+                },
+                attrsHover: {
+                        'stroke-width': 0,
+                    fill: '#8ABEDE'
+                }
+            },
+            defaultArea: {
+                attrsHover: {
+                    fill: '#343434'
+                }
+            }
+        }
+    });
+
     $.getJSON($('#hackplot_chart').attr('data-url'), function(data){
         geoPlots = {};
         $.each(data, function(index, result){
@@ -40,27 +62,7 @@ $(document).ready(function(){
             geoPlots[result.longitude + ',' + result.latitude] = newPlot
         });
 
-        $('#hackplot_chart').mapael({
-            map : {
-                name : "world_countries",
-                defaultPlot: {
-                    type: 'circle',
-                    size: 8,
-                    attrs: {
-                        opacity: 1
-                    },
-                    attrsHover: {
-                            'stroke-width': 0,
-                        fill: '#8ABEDE'
-                    }
-                },
-                defaultArea: {
-                    attrsHover: {
-                        fill: '#343434'
-                    }
-                }
-            },
-            plots: geoPlots
-        });
+        // Add the plots to the map
+        $('#hackplot_chart').trigger('update', [{}, geoPlots, {}, {}]);
     });
 });

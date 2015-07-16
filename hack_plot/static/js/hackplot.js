@@ -22,7 +22,7 @@ function getLocationTitle(location) {
 $(document).ready(function(){
     $.getJSON($('#hackplot_chart').attr('data-url'), function(data){
         geoPlots = {};
-        $.each(data.results, function(index, result){
+        $.each(data, function(index, result){
             var ipinfo = $('<div>').append(
                 $('<h5>').text(getLocationTitle(result))
             );

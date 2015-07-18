@@ -9,10 +9,14 @@
         <script src="{{ STATIC_URL }}js/skel.min.js"></script>
         <script src="{{ STATIC_URL }}js/init.js"></script>
         <noscript>
-            <link rel="stylesheet" href="{{ STATIC_URL }}css/skel.css" />
-            <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" />
-            <link rel="stylesheet" href="{{ STATIC_URL }}css/style-xlarge.css" />
+            <link rel="stylesheet" href="{{ STATIC_URL }}css/skel.css" media="screen" />
         </noscript>
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css" media="screen" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style-xlarge.css" media="screen (max-width: 1800px)" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style-large.css" media="screen (max-width: 1280px)" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style-medium.css" media="screen (max-width: 980px)" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style-small.css" media="screen (max-width: 736px)" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/style-xsmall.css" media="screen (max-width: 480px)" />
         <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/graphs.css" />
         <!--[if lte IE 8]><link rel="stylesheet" href="{{ STATIC_URL }}css/ie/v8.css" /><![endif]-->
         <!--[if IE]><link rel="shortcut icon" href="{{ STATIC_URL }}images/chart_32x32.ico"><![endif]-->

@@ -8,31 +8,31 @@ class BandwidthTestSerializer(serializers.ModelSerializer):
         fields = ('test_start', 'test_end', 'dlspeed', 'ulspeed', 'measure')
 
 
-class BandwidthGroupedByDaySerializer(serializers.ModelSerializer):
-    # sunday = serializers.SerializerMethodField()
-    # monday = serializers.SerializerMethodField()
-    # tuesday = serializers.SerializerMethodField()
-    # wednesday = serializers.SerializerMethodField()
-    # thursday = serializers.SerializerMethodField()
-    # friday = serializers.SerializerMethodField()
-    # saturday = serializers.SerializerMethodField()
-
-    # all_days = None
-
-    # def get_sunday(self, obj):
-    #     if all_days is None:
-    #         self.set_all_days(obj)
-
-    # def set_all_days(self, obj):
+class BandwidthGroupedByDaySerializer(serializers.Serializer):
+    day = serializers.CharField(max_length=20)
+    dlspeed__avg = serializers.DecimalField(max_digits=30, decimal_places=20)
+    dlspeed__count = serializers.DecimalField(max_digits=30, decimal_places=20)
+    dlspeed__max = serializers.DecimalField(max_digits=30, decimal_places=20)
+    dlspeed__min = serializers.DecimalField(max_digits=30, decimal_places=20)
+    dlspeed__sum = serializers.DecimalField(max_digits=30, decimal_places=20)
+    ulspeed__avg = serializers.DecimalField(max_digits=30, decimal_places=20)
+    ulspeed__count = serializers.DecimalField(max_digits=30, decimal_places=20)
+    ulspeed__max = serializers.DecimalField(max_digits=30, decimal_places=20)
+    ulspeed__min = serializers.DecimalField(max_digits=30, decimal_places=20)
+    ulspeed__sum = serializers.DecimalField(max_digits=30, decimal_places=20)
 
     class Meta:
         model = BandwidthTest
         fields = (
-            'sunday',
-            'monday',
-            'tuesday',
-            'wednesday',
-            'thursday',
-            'friday',
-            'saturday'
+            'day',
+            'dlspeed__avg',
+            'dlspeed__count',
+            'dlspeed__max',
+            'dlspeed__min',
+            'dlspeed__sum',
+            'ulspeed__avg',
+            'ulspeed__count',
+            'ulspeed__max',
+            'ulspeed__min',
+            'ulspeed__sum',
         )

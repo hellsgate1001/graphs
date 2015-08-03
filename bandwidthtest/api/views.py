@@ -28,6 +28,11 @@ class BandwidthGroupedByDay(generics.ListAPIView):
                 Sum('dlspeed'),
                 Max('dlspeed'),
                 Min('dlspeed'),
-                Avg('dlspeed')
+                Avg('dlspeed'),
+                Count('ulspeed'),
+                Sum('ulspeed'),
+                Max('ulspeed'),
+                Min('ulspeed'),
+                Avg('ulspeed')
             )
         )

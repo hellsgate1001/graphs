@@ -1,48 +1,55 @@
+function getDownloads(days) {
+    num = days.length;
+    dls = []
+    for (i = 0; i < num; ++i) {
+        dls.push(parseFloat(days[i].dlspeed__avg));
+    }
+    return dls;
+}
+
+function getUploads(days) {
+    num = days.length;
+    uls = []
+    for (i = 0; i < num; ++i) {
+        uls.push(parseFloat(days[i].ulspeed__avg));
+    }
+    return uls;
+}
+
 $().ready(function(){
-    $('#bandwidth_chart').highcharts({
-        chart: {
-            type: 'area-basic'
-        },
-        title: {
-            text: 'Bandwidth Use'
-        },
-        xAxis: {
-            labels: {
-                format: '{value}MB'
-            }
-        },
-        yAxis: {
+    $.getJSON($('#bandwidth_chart').attr('data-url'), function(data){
+        downloads = getDownloads(data.results);
+        uploads = getUploads(data.results);
+
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'bandwidth_chart',
+                type: 'area'
+            },
             title: {
-                text: 'Day'
+                text: 'Bandwidth Available'
             },
-            labels: {
-                ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-            }
-        },
-        plotOptions: {
-            area: {
-                pointStart: 'Monday',
-                marker: {
-                    enabled: false,
-                    symbol: 'circle',
-                    radius: 2,
-                    states: {
-                        hover: {
-                            enabled: true
-                        }
-                    }
-                }
-            }
-        },
-        series: [
-            {
+            xAxis: {
+                categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                tickInterval: 1
+            },
+            yAxis: {
+                title: {
+                    text: 'Usage MB'
+                },
+                min: 0,
+                max: 15
+            },
+            series: [{
                 name: 'Download',
-                data: [12.75, 10.15, 11.95, 12.15, 12.8, 9.1, 10.95]
-            },
-            {
+                data: downloads
+            }, {
                 name: 'Upload',
-                data: [0.85, 0.8, 0.85, 0.75, 0.8, 0.75, 0.85]
-            }
-        ]
+                data: uploads
+            }]
+        });
     });
+
+
+
 });

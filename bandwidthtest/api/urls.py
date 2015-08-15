@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 
 from rest_framework import routers
 
-from .views import BandwidthTestList, BandwidthTestDetail, BandwidthGroupedByDay
+from .views import (BandwidthTestList, BandwidthTestDetail, BandwidthGroupedByDay)
 
 
 bandwidth_api_urls = patterns('',
@@ -19,7 +19,7 @@ bandwidth_api_urls = patterns('',
     url(
         r'bandwidth/by-day/$',
         BandwidthGroupedByDay.as_view(),
-        name='retrieveupdatedestroy'
+        name='listbyday'
     ),
 )
 

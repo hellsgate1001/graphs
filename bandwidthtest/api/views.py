@@ -2,7 +2,7 @@ from django.db.models import Count, Sum, Max, Min, Avg
 
 from rest_framework import generics
 
-from .serializers import BandwidthTestSerializer, BandwidthGroupedByDaySerializer
+from .serializers import (BandwidthTestSerializer, BandwidthGroupedByDaySerializer)
 from ..models import BandwidthTest
 
 
@@ -16,8 +16,7 @@ class BandwidthTestDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BandwidthTestSerializer
 
 
-class BandwidthGroupedByDay(generics.ListAPIView):
-    serializer_class = BandwidthGroupedByDaySerializer
+class GroupedByDayMixin(object):
 
     def get_queryset(self):
         return (BandwidthTest.objects.all()
@@ -36,3 +35,7 @@ class BandwidthGroupedByDay(generics.ListAPIView):
                 Avg('ulspeed')
             )
         )
+
+
+class BandwidthGroupedByDay(GroupedByDayMixin, generics.ListAPIView):
+    serializer_class = BandwidthGroupedByDaySerializer
